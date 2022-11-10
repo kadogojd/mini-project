@@ -1,1 +1,10 @@
 # mini-project
+binance testnet
+0x4A413a1fC3AD896b849EDde3Fdd4c94f26eB25D3
+
+goerli testnet
+0x4A413a1fC3AD896b849EDde3Fdd4c94f26eB25D3
+
+
+mumbai/polygon testnet
+0x4A413a1fC3AD896b849EDde3Fdd4c94f26eB25D3
