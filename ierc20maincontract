@@ -1,0 +1,58 @@
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.0;
+
+import "./ierctoken.sol";
+
+contract tech4dev is IERC20{
+   
+   uint public override totalSupply = 10**6 * 10**18; //this is the total supply the token has
+   mapping(address => uint) public override balanceOf; //how to get the owners balance
+   mapping(address => mapping(address => uint)) public override allowance; //gets the address of the spender and the amount
+   string public name = "tech4dev Token"; //this is the token name
+   string public symbol = "T4D";        //this is the token symbol
+   uint public decimals = 18;         
+
+   function transfer(address recipient, uint amount) external override returns(bool){ //shows amount deducted from the address of the person calling the contract
+   balanceOf[msg.sender] -= amount; // amount from sender is deducted
+
+   balanceOf[recipient] += amount;// the token deducted from the address 
+   //balanceOf[recipient] = balanceOf[recipient] + amount;
+   emit Transfer(msg.sender, recipient,amount); //shows wether the owner's transfer is succesful 
+   return true; //if transaction is successful, then return true
+
+   }
+
+ function approve(address spender, uint amount)external override returns(bool){ // approves deduction of certain amount of money by the spender
+   allowance[msg.sender][spender] = amount; // allows spender to get access to money from the owner 
+   emit Approval(msg.sender, spender, amount); //emit broadcasts the approval made
+   return true; // return true when transaction is succesful
+
+}
+// approve transfer to 3rd party account
+function transferFrom(address sender, address recipient, uint amount) external override returns(bool){
+   allowance[sender][msg.sender] -= amount; //checks the amount allowed to be sent
+   balanceOf[sender] -= amount; //deduction of amount from the sender
+   balanceOf[recipient] += amount; //shows amount addition to the recipient and the amount 
+   emit Transfer(sender, recipient, amount); //emit broadcasts the address of the sender
+    return true; //to return true if function is succesful
+
+}
+  function mint(uint amount) public { //amount is added to the owner, a token with an input is created
+    balanceOf[msg.sender] += amount; //shows balance of the person calling the contract and addition of amount
+    totalSupply += amount; //same amount ia added to total supply
+    emit Transfer(address(0), msg.sender, amount); //the function is broadcasted
+
+  }
+
+  function burn(uint amount)public {   // removal of certain amount from circulation
+     balanceOf[msg.sender] -= amount; //amount deducted from the total supply
+     totalSupply -= amount; //enables deduction in the total supply created token, when the burn fucntion is called
+     emit Transfer(msg.sender, address(0), amount);//function is broadcasted
+
+
+
+  }
+
+
+
+ }
